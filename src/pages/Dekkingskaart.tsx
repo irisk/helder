@@ -32,7 +32,7 @@ export function Dekkingskaart() {
   if (!school) {
     return (
       <div className="min-h-screen">
-        <main className="mx-auto max-w-[760px] px-6 py-16">
+        <main className="mx-auto max-w-smal px-6 py-16">
           <h1 className="text-titel">Deze school bestaat hier niet</h1>
           <p className="mt-2"><a href="/dekkingskaart" className="font-semibold text-action hover:text-action-deep">Naar het voorbeeld</a></p>
         </main>
@@ -130,7 +130,7 @@ function TopBar({ scherm, setScherm }: { scherm: Scherm; setScherm: (s: Scherm) 
   const tabs = [["kaart", "Kaart"], ["leerlijn", "Leerlijn"], ["uitnodigen", "Collega's"], ["docent", "Mijn vak"]] as const;
   return (
     <header className="sticky top-0 z-20 border-b border-line bg-surface">
-      <div className="mx-auto flex max-w-[1400px] flex-wrap items-center gap-x-8 gap-y-2 px-6 py-2.5">
+      <div className="mx-auto flex max-w-breed flex-wrap items-center gap-x-8 gap-y-2 px-6 py-2.5">
         <span className="text-kop text-action">Helder</span>
         {scherm !== "opzet" && (
           <nav className="flex flex-wrap gap-1" aria-label="Hoofdmenu">

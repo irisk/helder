@@ -60,7 +60,7 @@ export function Kaart({ alles, laatstBijgewerkt, nagelopen, naam, voegToe, bewer
   });
 
   return (
-    <main className="mx-auto max-w-[1400px] px-6 py-6">
+    <main className="mx-auto max-w-breed px-6 py-6">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-titel">Kerndoelen per {school.kolomLabel}</h1>
         <div className="flex flex-wrap items-center gap-2">
@@ -149,7 +149,7 @@ export function Kaart({ alles, laatstBijgewerkt, nagelopen, naam, voegToe, bewer
         <span className="inline-flex items-center gap-2"><span className="inline-block h-3.5 w-3.5 border border-line bg-surface" /> Leeg en bevestigd: hier gebeurt niets</span>
       </div>
       {onbekendJaar && (
-        <p className="mt-2 max-w-[72ch] text-legenda text-ink-soft">
+        <p className="mt-2 max-w-regel text-legenda text-ink-soft">
           Van sommige methode-onderdelen is niet bekend in {welkJaar} ze vallen. Die blijven daarom bij {elkJaar} staan.
         </p>
       )}

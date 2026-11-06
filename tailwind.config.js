@@ -26,6 +26,14 @@ export default {
         legenda: ['14px', '1.45'],
         klein: ['13px', '1.4'],
       },
+      // Two page widths: smal for reading, forms and lists, breed for tables.
+      // Text fills its container; regel only caps text on a breed page.
+      maxWidth: {
+        smal: '760px',
+        breed: '1400px',
+        paneel: '560px',
+        regel: '72ch',
+      },
       boxShadow: {
         m: '0 10px 28px -10px rgba(42,37,64,0.14)',
       },

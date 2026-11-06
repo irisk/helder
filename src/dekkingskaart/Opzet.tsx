@@ -5,9 +5,9 @@ export function Opzet({ methode, setMethode, onKlaar }: { methode: Record<string
   const { school } = useSchool();
   const metMethode = school.kolommen.filter((k) => k.methodes.length > 0);
   return (
-    <main className="mx-auto max-w-[760px] px-6 py-8">
+    <main className="mx-auto max-w-smal px-6 py-8">
       <h1 className="text-titel">Welke methodes gebruiken jullie?</h1>
-      <p className="mt-2 max-w-[60ch]">
+      <p className="mt-2">
         Dit vult alvast een deel van de kaart. Het is niet verplicht: je kunt overslaan en meteen zelf invullen wat er in de lessen gebeurt.
       </p>
       <div className="mt-5 divide-y divide-line-soft rounded-kaart border border-line bg-surface">
@@ -25,7 +25,7 @@ export function Opzet({ methode, setMethode, onKlaar }: { methode: Record<string
         <Knop onClick={onKlaar}>Naar de kaart</Knop>
         <Knop soort="stil" onClick={onKlaar}>Overslaan</Knop>
       </div>
-      {school.opzetNotitie && <p className="mt-4 max-w-[62ch] text-legenda text-ink-soft">{school.opzetNotitie}</p>}
+      {school.opzetNotitie && <p className="mt-4 text-legenda text-ink-soft">{school.opzetNotitie}</p>}
     </main>
   );
 }

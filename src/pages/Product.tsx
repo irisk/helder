@@ -38,7 +38,7 @@ export function Product() {
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-20 border-b border-line bg-surface">
-        <div className="mx-auto flex max-w-[820px] items-center gap-4 px-6 py-2.5">
+        <div className="mx-auto flex max-w-smal items-center gap-4 px-6 py-2.5">
           <Link to="/" className="text-kop text-action">Helder</Link>
           <Link to="/dekkingskaart" className={`ml-auto ${knopKlas("hoofd")}`}>
             Open het prototype
@@ -46,7 +46,7 @@ export function Product() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-[820px] px-6 pb-14">
+      <main className="mx-auto max-w-smal px-6 pb-14">
         <div className="py-7">
           <h1 className="text-titel">
             Weten wat je school doet aan digitale geletterdheid.
@@ -93,7 +93,7 @@ export function Product() {
         </Blok>
 
         <Blok titel="Wat er verder in zit">
-          <ul className="max-w-none space-y-1.5">
+          <ul className="space-y-1.5">
             <li>Filteren op leerjaar, zodat je kunt zien wat er in leerjaar 1, 2 of 3 gebeurt.</li>
             <li>Elk onderdeel klapt uit naar de subdoelen, zodat je ziet welk deel ervan aan bod komt.</li>
             <li>Een leerlijn per leerjaar, met wat jullie hebben afgesproken en of het is gepland of gegeven.</li>

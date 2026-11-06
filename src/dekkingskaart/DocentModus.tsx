@@ -38,7 +38,7 @@ export function DocentModus({ kolom, methode, regels, naam, nagelopen, setKolom,
   };
 
   return (
-    <main className="mx-auto max-w-[760px] px-6 py-6">
+    <main className="mx-auto max-w-smal px-6 py-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-titel">{kolom.naam}</h1>
         <div className="w-56">

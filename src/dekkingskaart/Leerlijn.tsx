@@ -23,7 +23,7 @@ export function Leerlijn({ alles, naam, voegToe, bewerk }: {
   const kolommen: (number | null)[] = [...school.jaren, ...(onbekend ? [null] : [])];
   const rij = { gridTemplateColumns: `260px repeat(${kolommen.length}, minmax(210px, 1fr))` };
   return (
-    <main className="mx-auto max-w-[1400px] px-6 py-6">
+    <main className="mx-auto max-w-breed px-6 py-6">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-titel">Leerlijn</h1>
@@ -61,7 +61,7 @@ export function Leerlijn({ alles, naam, voegToe, bewerk }: {
 
       {open && (
         <div className="fixed inset-0 z-30 flex items-center justify-center bg-overlay p-4" onClick={() => setOpen(null)}>
-          <div role="dialog" aria-modal="true" aria-label={open.bezig ? "Les bewerken" : "Les toevoegen"} className="max-h-full w-full max-w-[600px] overflow-y-auto rounded-kaart border border-line bg-surface p-5" onClick={(e) => e.stopPropagation()}>
+          <div role="dialog" aria-modal="true" aria-label={open.bezig ? "Les bewerken" : "Les toevoegen"} className="max-h-full w-full max-w-paneel overflow-y-auto rounded-kaart border border-line bg-surface p-5" onClick={(e) => e.stopPropagation()}>
             <div className="-mb-9 -mt-1 flex justify-end"><Knop soort="stil" onClick={() => setOpen(null)}>Sluiten</Knop></div>
             <ActiviteitFormulier
               key={`${open.bezig?.id ?? "nieuw"}-${open.code}-${open.jaar}`}

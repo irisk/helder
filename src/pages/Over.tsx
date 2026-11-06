@@ -9,11 +9,11 @@ const MAILTO = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Helder · 
 export function Over() {
   return (
     <div className="min-h-screen">
-      <header className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3 px-6 py-5">
+      <header className="mx-auto flex max-w-smal flex-wrap items-center justify-between gap-3 px-6 py-5">
         <Link to="/" className="text-kop text-action">Helder</Link>
         <a href={MAILTO} className={knopKlas("tweede")}>Praat je mee?</a>
       </header>
-      <main className="mx-auto max-w-3xl px-6">
+      <main className="mx-auto max-w-smal px-6">
         <section className="grid items-center gap-8 pb-10 pt-4 sm:grid-cols-[1.45fr_1fr]">
           <div>
             <h1 className="text-titel">Hoe leren we jongeren bewust en kritisch omgaan met technologie?</h1>
@@ -63,7 +63,7 @@ export function Over() {
         </section>
       </main>
       <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3 px-6 py-6 text-klein text-ink-soft">
+        <div className="mx-auto flex max-w-smal flex-wrap items-center justify-between gap-3 px-6 py-6 text-klein text-ink-soft">
           <div><span className="font-semibold text-ink">Helder</span>, een initiatief van Iris van de Kieft</div>
           <div className="flex flex-wrap items-center gap-4">
             <Link to="/dekkingskaart" className="text-action hover:text-action-deep">Dekkingskaart</Link>

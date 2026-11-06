@@ -30,7 +30,7 @@ export function VakPaneel({ kolom, regels, laatst, bevestigd, viaCode, naam, onS
   const sluitFormulier = () => { setBezig(null); setFormulier(false); };
   return (
     <div className="fixed inset-0 z-30 flex justify-end bg-overlay" onClick={onSluit}>
-      <aside className="flex h-full w-full max-w-[560px] flex-col border-l border-line bg-surface" onClick={(e) => e.stopPropagation()}>
+      <aside className="flex h-full w-full max-w-paneel flex-col border-l border-line bg-surface" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-start justify-between gap-3 border-b border-line px-4 py-3">
           <div>
             <h2 className="text-kop">{kolom.naam}</h2>
@@ -66,7 +66,7 @@ export function VakPaneel({ kolom, regels, laatst, bevestigd, viaCode, naam, onS
                     <Knop soort="stil" onClick={() => { verwijder(a.id); if (bezig?.id === a.id) sluitFormulier(); }}>Verwijderen</Knop>
                   </>}
                 </>}>
-                  {uit && a.toelichting && <p className="mt-2 max-w-[60ch] text-ink-soft">{a.toelichting}</p>}
+                  {uit && a.toelichting && <p className="mt-2 text-ink-soft">{a.toelichting}</p>}
                 </LijstRegel>
               );
             })}
