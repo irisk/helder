@@ -1,0 +1,113 @@
+/* =========================================================
+   Iris — Personal Design System · tokens
+   Design tokens, copied into this project so the
+   repo deploys self-contained on Vercel. The @theme block from
+   the source is omitted: it's Tailwind v4 syntax and this app
+   maps tokens in tailwind.config.js (Tailwind v3).
+   ========================================================= */
+
+:root {
+  /* ——— Ground (off-white, warm but clean) ——— */
+  --iris-off-white:      #FAF8F3;   /* primary page */
+  --iris-cream:          #FFFDF7;   /* raised surface */
+  --iris-wash:           #F0EDE4;   /* subtle wash */
+  --iris-paper:          #FFFFFF;   /* true white, sparingly */
+  --iris-plum-dark:      #1A1426;   /* alt dark ground */
+  --iris-ink-dark:       #0A0F1C;   /* alt dark ground, cool */
+
+  /* ——— Ink (navy-not-black) ——— */
+  --iris-ink:            #12214A;   /* primary text, headlines */
+  --iris-ink-soft:       #3A4668;   /* body */
+  --iris-ink-faint:      #7A8299;   /* meta, helper */
+  --iris-rule:           rgba(18, 33, 74, 0.14);
+  --iris-rule-strong:    rgba(18, 33, 74, 0.28);
+
+  /* ——— Calm signals ——— */
+  --iris-cobalt:         #1D4AE5;   /* confident headline accent */
+  --iris-cobalt-deep:    #163DB8;
+  --iris-cobalt-soft:    #DDE5FB;
+  --iris-yellow:         #F2C200;   /* highlighter */
+  --iris-yellow-soft:    #FAE88F;
+  --iris-yellow-line:    #FFD83D;
+  --iris-coral:          #E8563F;   /* warm energy */
+  --iris-coral-deep:     #C8402B;
+  --iris-coral-soft:     #F6CFC6;
+  --iris-sage:           #6AB8A2;   /* calm */
+  --iris-sage-deep:      #4C9B85;
+  --iris-sage-soft:      #D6EBE3;
+  --iris-plum:           #7B3FA0;   /* rare accent */
+  --iris-plum-soft:      #E8D8F1;
+
+  /* ——— Type ——— */
+  --iris-font-display:   'Sora', system-ui, sans-serif;
+  --iris-font-body:      'DM Sans', system-ui, sans-serif;
+  --iris-font-serif:     'Fraunces', Georgia, serif;
+  --iris-font-mono:      'JetBrains Mono', ui-monospace, monospace;
+
+  /* ——— Space (4px baseline) ——— */
+  --iris-s-1: 4px;  --iris-s-2: 8px;  --iris-s-3: 12px; --iris-s-4: 16px;
+  --iris-s-5: 24px; --iris-s-6: 32px; --iris-s-7: 48px; --iris-s-8: 64px; --iris-s-9: 96px;
+
+  /* ——— Radii ——— */
+  --iris-r-s:  6px;   /* chip, input */
+  --iris-r-m:  12px;  /* card */
+  --iris-r-l:  20px;  /* hero */
+  --iris-r-xl: 28px;  /* manifesto surface */
+  --iris-r-pill: 999px;
+
+  /* ——— Shadow · paper-soft ——— */
+  --iris-sh-s: 0 1px 2px rgba(18, 33, 74, 0.05);
+  --iris-sh-m: 0 10px 28px -10px rgba(18, 33, 74, 0.14);
+  --iris-sh-l: 0 28px 60px -24px rgba(18, 33, 74, 0.22);
+
+  /* ——— Motion curves ——— */
+  --iris-ease-breath: cubic-bezier(0.33, 1, 0.68, 1);
+  --iris-ease-settle: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --iris-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --iris-ease-quick:  cubic-bezier(0.4, 0, 0.2, 1);
+  --iris-dur-breath: 3000ms;
+  --iris-dur-settle: 420ms;
+  --iris-dur-spring: 320ms;
+  --iris-dur-quick:  180ms;
+}
+
+/* =========================================================
+   Emphasis utilities — the "human hand" of the system
+   ========================================================= */
+
+.iris-hl {
+  background: linear-gradient(to top,
+    var(--iris-yellow-soft) 0%,
+    var(--iris-yellow-soft) 42%,
+    transparent 42%);
+  padding: 0 0.08em;
+}
+.iris-hl-bar {
+  background: var(--iris-yellow);
+  padding: 0.02em 0.12em;
+  color: var(--iris-ink);
+}
+.iris-circled {
+  position: relative;
+  display: inline-block;
+  padding: 0 0.1em;
+}
+.iris-circled::after {
+  content: '';
+  position: absolute;
+  inset: -0.14em -0.3em;
+  border: 2px solid var(--iris-yellow);
+  border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+  transform: rotate(-2deg);
+  pointer-events: none;
+}
+.iris-circled--coral::after  { border-color: var(--iris-coral); }
+.iris-circled--cobalt::after { border-color: var(--iris-cobalt); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
