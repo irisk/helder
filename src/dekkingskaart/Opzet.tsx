@@ -1,14 +1,12 @@
 import { useSchool } from "./SchoolContext";
-import { Knop, Label } from "./ui";
+import { Knop } from "./ui";
 
 export function Opzet({ methode, setMethode, onKlaar }: { methode: Record<string, string>; setMethode: (m: Record<string, string>) => void; onKlaar: () => void }) {
   const { school } = useSchool();
   const metMethode = school.kolommen.filter((k) => k.methodes.length > 0);
-  const vult = (m: string) => [...new Set((school.methodeDekking[m] ?? []).map((k) => k.code))];
   return (
     <main className="mx-auto max-w-[760px] px-4 py-8">
-      <Label>stap 1 van 1</Label>
-      <h1 className="mt-1.5 font-display text-[22px] font-bold tracking-tight text-ink">Welke methodes gebruiken jullie?</h1>
+      <h1 className="font-display text-[22px] font-bold tracking-tight text-ink">Welke methodes gebruiken jullie?</h1>
       <p className="mt-1.5 max-w-[60ch]">
         Dit vult alvast een deel van de kaart. Het is niet verplicht: je kunt overslaan en meteen zelf invullen wat er in de lessen gebeurt.
       </p>
@@ -23,13 +21,6 @@ export function Opzet({ methode, setMethode, onKlaar }: { methode: Record<string
             >
               {k.methodes.map((m) => <option key={m}>{m}</option>)}
             </select>
-            <span className="hidden w-32 shrink-0 text-right sm:block">
-              {vult(methode[k.id]).length ? (
-                <span className="font-mono text-[10.5px] text-ink-faint">vult {vult(methode[k.id]).join(", ")}</span>
-              ) : (
-                <span className="font-mono text-[10.5px] text-ink-faint/60">vult niets</span>
-              )}
-            </span>
           </div>
         ))}
       </div>

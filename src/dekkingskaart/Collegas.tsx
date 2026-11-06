@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useSchool } from "./SchoolContext";
 import { versheid, watGeleden } from "./tijd";
+import type { Nagelopen } from "./types";
 import { Knop } from "./ui";
 
-export function Collegas({ laatstBijgewerkt, onOpen, onTerug }: { laatstBijgewerkt: (kolom: string) => string | null; onOpen: (kolom: string, naam: string) => void; onTerug: () => void }) {
+export function Collegas({ laatstBijgewerkt, nagelopen, onOpen, onTerug }: { laatstBijgewerkt: (kolom: string) => string | null; nagelopen: Record<string, Nagelopen>; onOpen: (kolom: string, naam: string) => void; onTerug: () => void }) {
   const { school, kolomVan } = useSchool();
   const [gevraagd, setGevraagd] = useState<string[]>([]);
   return (
@@ -15,14 +16,18 @@ export function Collegas({ laatstBijgewerkt, onOpen, onTerug }: { laatstBijgewer
       <div className="mt-4 divide-y divide-rule overflow-hidden rounded-lg border border-rule bg-cream">
         {school.docenten.map((p) => {
           const sleutel = `${p.naam}-${p.kolom}`;
-          const lb = laatstBijgewerkt(p.kolom); const vs = versheid(lb);
+          const lb = laatstBijgewerkt(p.kolom); const n = nagelopen[p.kolom];
+          // De laatste van de twee, met het woord erbij.
+          const isBevestigd = !!n && (!lb || n.op >= lb);
+          const datum = isBevestigd ? n!.op : lb; const vs = versheid(datum);
           return (
             <div key={sleutel} className="flex items-center gap-3 px-3 py-2">
               <span className="h-6 w-6 shrink-0 rounded-full bg-cobalt-soft text-center font-mono text-[10px] leading-6 text-cobalt-deep">{p.naam.slice(0, 2)}</span>
               <span className="w-24 font-medium text-ink">{p.naam}</span>
               <span className="w-32 text-ink-soft">{kolomVan(p.kolom).naam}</span>
-              <span className={`font-mono text-[10.5px] ${vs === "verouderd" ? "text-yellow" : "text-ink-faint"}`}>
-                {lb ? watGeleden(lb) : "nog niets"}
+              <span className={`font-mono text-[10.5px] ${datum && vs === "verouderd" ? "font-medium text-ink" : "text-ink-faint"}`}>
+                {datum && vs === "verouderd" && <span className="mr-1 inline-block h-1.5 w-1.5 rounded-full bg-yellow align-middle" />}
+                {datum ? `${isBevestigd ? "bevestigd" : "bijgewerkt"} ${watGeleden(datum)}` : "nog niets"}
               </span>
               <div className="ml-auto flex items-center gap-1.5">
                 <Knop soort="stil" klein onClick={() => onOpen(p.kolom, p.naam)}>Bekijk hun scherm</Knop>

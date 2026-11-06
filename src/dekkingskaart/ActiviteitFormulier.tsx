@@ -58,7 +58,7 @@ export function ActiviteitFormulier({ kop, begin, bewerken, naam, kolomId, toonC
   return (
     <div>
       <Label>{kop}</Label>
-      <input value={titel} onChange={(e) => setTitel(e.target.value)} aria-label="Titel" placeholder="Wat doe je? Bijv. 'Debat over AI en werk'"
+      <input value={titel} onChange={(e) => setTitel(e.target.value)} aria-label="Titel" placeholder="Naam van de les, bijv. 'Debat over AI en werk'"
              className="mt-1.5 w-full rounded-md border border-rule bg-cream px-2.5 py-1.5 text-[13px] text-ink outline-none placeholder:text-ink-faint/70 focus:border-cobalt" />
       <div className="mt-2 flex flex-wrap items-center gap-1.5">
         <Label>{school.jaarLabel}</Label>
@@ -67,7 +67,7 @@ export function ActiviteitFormulier({ kop, begin, bewerken, naam, kolomId, toonC
             className={`h-6 w-6 rounded-md font-mono text-[11px] transition ${jaar === j ? "bg-cobalt text-cream" : "border border-rule bg-cream text-ink-soft hover:border-ink-faint"}`}>{j}</button>
         ))}
       </div>
-      <div className="mt-2"><Label>raakt</Label>
+      <div className="mt-2"><Label>gaat over</Label>
         <div className="mt-1 flex flex-wrap gap-1">
           {onderdelen.map((o) => (
             <button key={o.code} onClick={() => kiesCode(o.code)} title={o.titel} aria-pressed={codes.includes(o.code)}
@@ -78,7 +78,7 @@ export function ActiviteitFormulier({ kop, begin, bewerken, naam, kolomId, toonC
         </div>
       </div>
       <div className="mt-2 flex items-center gap-2">
-        <Label>ingevoerd door</Label>
+        <Label>ingevuld door</Label>
         <input value={door} onChange={(e) => setDoor(e.target.value)} list={`namen-${kolomId}`} aria-label="Je naam" placeholder="Je naam"
                className="w-40 rounded-md border border-rule bg-cream px-2.5 py-1 text-[12.5px] text-ink outline-none placeholder:text-ink-faint/70 focus:border-cobalt" />
         <datalist id={`namen-${kolomId}`}>{namen.map((n) => <option key={n} value={n} />)}</datalist>
@@ -88,7 +88,7 @@ export function ActiviteitFormulier({ kop, begin, bewerken, naam, kolomId, toonC
         <div className="mt-2 space-y-2 border-l-2 border-rule pl-2.5">
           {gekozenMetSubdoelen.map((o) => (
             <div key={o.code}>
-              <Label>welk deel van {o.titel.toLowerCase()}? (optioneel)</Label>
+              <Label>welk subdoel van {o.titel.toLowerCase()}? (optioneel)</Label>
               <div className="mt-1 flex flex-wrap gap-1">
                 {o.subdoelen!.map((s) => (
                   <button key={s.code} onClick={() => setSubdoelen((l) => wissel(l, s.code))} title={s.volledig} aria-pressed={subdoelen.includes(s.code)}

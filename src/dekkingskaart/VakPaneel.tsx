@@ -2,13 +2,13 @@ import { useState } from "react";
 import { ActiviteitFormulier } from "./ActiviteitFormulier";
 import { useSchool } from "./SchoolContext";
 import { watGeleden } from "./tijd";
-import type { Activiteit, ActiviteitVelden, Kolom } from "./types";
+import type { Activiteit, ActiviteitVelden, Kolom, Nagelopen } from "./types";
 import { Code, herkomst, Knop, Merk } from "./ui";
 
 /* Hier gebeurt het toevoegen en bewerken. */
 
-export function VakPaneel({ kolom, regels, laatst, viaCode, naam, onSluit, setViaCode, voegToe, bewerk, verwijder }: {
-  kolom: Kolom; regels: Activiteit[]; laatst: string | null; viaCode: string | null; naam: string; onSluit: () => void;
+export function VakPaneel({ kolom, regels, laatst, bevestigd, viaCode, naam, onSluit, setViaCode, voegToe, bewerk, verwijder }: {
+  kolom: Kolom; regels: Activiteit[]; laatst: string | null; bevestigd?: Nagelopen; viaCode: string | null; naam: string; onSluit: () => void;
   setViaCode: (c: string | null) => void;
   voegToe: (kolom: string, v: ActiviteitVelden) => void;
   bewerk: (id: string, v: ActiviteitVelden) => void;
@@ -28,7 +28,7 @@ export function VakPaneel({ kolom, regels, laatst, viaCode, naam, onSluit, setVi
           <div>
             <h2 className="font-display text-[16px] font-bold tracking-tight text-ink">{kolom.naam}</h2>
             <span className="font-mono text-[10.5px] text-ink-faint">
-              {laatst ? `bijgewerkt ${watGeleden(laatst)}` : "nog niets ingevuld"}
+              {laatst ? `bijgewerkt ${watGeleden(laatst)}` : "nog niets ingevuld"}{bevestigd ? `, bevestigd door ${bevestigd.door}, ${watGeleden(bevestigd.op)}` : ""}
             </span>
           </div>
           <Knop soort="stil" klein onClick={onSluit}>Sluiten</Knop>
@@ -100,7 +100,7 @@ export function VakPaneel({ kolom, regels, laatst, viaCode, naam, onSluit, setVi
           {/* key: bij een ander record begint het formulier opnieuw met dat record */}
           <ActiviteitFormulier
             key={bezig?.id ?? "nieuw"}
-            kop={bezig ? "bewerken" : "iets toevoegen"}
+            kop={bezig ? "bewerken" : "les toevoegen"}
             begin={bezig ?? undefined} bewerken={!!bezig}
             naam={naam} kolomId={kolom.id} toonCodes
             onOpslaan={(v) => { if (bezig) { bewerk(bezig.id, v); setBezig(null); } else voegToe(kolom.id, v); }}

@@ -7,7 +7,6 @@ import { VakPaneel } from "./VakPaneel";
 
 const KOLOM_BREEDTE = 64;
 const LABEL_BREEDTE = 300;
-const RECENT_KORT = 6;
 
 function Cel({ regels, schaduw, klein, label, onKlik, onHover, onWeg }: {
   regels: Activiteit[]; schaduw: boolean; klein?: boolean; label: string;
@@ -24,16 +23,14 @@ function Cel({ regels, schaduw, klein, label, onKlik, onHover, onWeg }: {
   );
 }
 
-export function Kaart({ alles, laatstGezien, laatstBijgewerkt, nagelopen, naam, voegToe, bewerk, verwijder, naarUitnodigen }: {
+export function Kaart({ alles, laatstBijgewerkt, nagelopen, naam, voegToe, bewerk, verwijder }: {
   alles: Activiteit[];
-  laatstGezien: (kolom: string) => string | null;
   laatstBijgewerkt: (kolom: string) => string | null;
   nagelopen: Record<string, Nagelopen>;
   naam: string;
   voegToe: (kolom: string, v: ActiviteitVelden) => void;
   bewerk: (id: string, v: ActiviteitVelden) => void;
   verwijder: (id: string) => void;
-  naarUitnodigen: () => void;
 }) {
   const { school, titelVan, kolomVan, welkJaar, elkJaar } = useSchool();
   const [openKolom, setOpenKolom] = useState<string | null>(null);
@@ -46,7 +43,6 @@ export function Kaart({ alles, laatstGezien, laatstBijgewerkt, nagelopen, naam, 
   const inJaar = (a: Activiteit) => jaar === 0 || a.jaar === null || a.jaar === jaar;
   // "Doen we niet" blijft in het vakpaneel staan, maar telt niet op de kaart.
   const zichtbaar = alles.filter((a) => inJaar(a) && a.antwoord?.waarde !== "nee");
-  const verouderd = school.kolommen.filter((k) => laatstGezien(k.id) && versheid(laatstGezien(k.id)) === "verouderd");
   const rijen = { gridTemplateColumns: `minmax(${LABEL_BREEDTE}px,1fr) repeat(${school.kolommen.length}, minmax(${KOLOM_BREEDTE}px, 1fr))` };
   const onbekendJaar = jaar > 0 && zichtbaar.some((a) => a.jaar === null);
 
@@ -57,7 +53,7 @@ export function Kaart({ alles, laatstGezien, laatstBijgewerkt, nagelopen, naam, 
   };
   const celProps = (o: Onderdeel, k: { id: string; naam: string }, regels: Activiteit[], wat: string) => ({
     regels, schaduw: !nagelopen[k.id],
-    label: regels.length ? `${k.naam}, ${wat}: ${regels.length} activiteit${regels.length > 1 ? "en" : ""}` : `${k.naam}, ${wat}: ${nagelopen[k.id] ? "nagelopen, hier niets" : "nog niet nagelopen"}`,
+    label: regels.length ? `${k.naam}, ${wat}: ${regels.length === 1 ? "1 les" : `${regels.length} lessen`}` : `${k.naam}, ${wat}: ${nagelopen[k.id] ? "bevestigd, hier niets" : "nog niet bevestigd"}`,
     onKlik: () => { setViaCode(o.code); setOpenKolom(k.id); },
     onHover: (e: { currentTarget: HTMLElement }) => toonHover(e, o.code, k.id, regels),
     onWeg: () => setHover(null),
@@ -65,41 +61,16 @@ export function Kaart({ alles, laatstGezien, laatstBijgewerkt, nagelopen, naam, 
 
   return (
     <main className="mx-auto max-w-[1400px] px-4 py-5">
-      <div className="mb-4">
-        <h1 className="font-display text-[19px] font-bold tracking-tight text-ink">Wat er in de lessen gebeurt</h1>
-        <p className="mt-0.5 text-[12.5px] text-ink-faint">
-          Per kerndoelonderdeel, per {school.kolomLabel}. Wat hier staat is wat collega's zelf hebben opgegeven.
-        </p>
+      <h1 className="font-display text-[19px] font-bold tracking-tight text-ink">Kerndoelen per {school.kolomLabel}</h1>
+      <div className="mb-3 mt-3 flex items-center gap-1.5">
+        <Label>{school.jaarLabel}</Label>
+        {[0, ...school.jaren].map((j) => (
+          <button key={j} onClick={() => setJaar(j)} aria-pressed={jaar === j}
+            className={`rounded-md px-2 py-0.5 font-mono text-[11px] transition ${jaar === j ? "bg-cobalt text-cream" : "border border-rule bg-cream text-ink-soft hover:border-ink-faint"}`}>
+            {j === 0 ? "alle" : j}
+          </button>
+        ))}
       </div>
-      <div className="mb-3 flex flex-wrap items-center gap-x-5 gap-y-2">
-        <div className="flex items-center gap-1.5">
-          <Label>{school.jaarLabel}</Label>
-          {[0, ...school.jaren].map((j) => (
-            <button key={j} onClick={() => setJaar(j)} aria-pressed={jaar === j}
-              className={`rounded-md px-2 py-0.5 font-mono text-[11px] transition ${jaar === j ? "bg-cobalt text-cream" : "border border-rule bg-cream text-ink-soft hover:border-ink-faint"}`}>
-              {j === 0 ? "alle" : j}
-            </button>
-          ))}
-        </div>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-ink-faint">
-          <span className="inline-flex items-center gap-1.5"><Merk methode docent={false} /> uit de methode</span>
-          <span className="inline-flex items-center gap-1.5"><Merk methode={false} docent /> docent doet dit</span>
-          <span className="inline-flex items-center gap-1.5"><span className="font-mono text-[10px] text-ink-soft">3</span> aantal activiteiten</span>
-          <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 border border-rule bg-cream" /> nagelopen, hier niets</span>
-          <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 bg-wash" /> nog niet nagelopen</span>
-        </div>
-      </div>
-
-      {verouderd.length > 0 && (
-        <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border border-rule bg-cream px-3 py-2">
-          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-yellow" />
-          <span className="text-[12.5px] text-ink">
-            {verouderd.map((k) => `${k.naam} (${watGeleden(laatstGezien(k.id)!)})`).join(", ")}
-          </span>
-          <span className="text-[12.5px] text-ink-faint">niet meer bijgewerkt</span>
-          <button onClick={naarUitnodigen} className="ml-auto text-[12.5px] font-medium text-cobalt hover:text-cobalt-deep">Vraag ze na</button>
-        </div>
-      )}
 
       <div className="overflow-x-auto rounded-lg border border-rule bg-cream">
         <div style={{ minWidth: LABEL_BREEDTE + school.kolommen.length * KOLOM_BREEDTE }}>
@@ -107,7 +78,7 @@ export function Kaart({ alles, laatstGezien, laatstBijgewerkt, nagelopen, naam, 
             <div className="sticky left-0 z-10 flex items-end bg-cream px-3 py-2"><Label>kerndoelonderdeel</Label></div>
             {school.kolommen.map((k) => {
               const n = nagelopen[k.id]; const lb = laatstBijgewerkt(k.id); const oud = n && versheid(n.op) === "verouderd";
-              const uitleg = `${k.naam}. ${n ? `Nagelopen door ${n.door}, ${watGeleden(n.op)}.` : "Nog niet nagelopen."}${lb ? ` Laatst bijgewerkt ${watGeleden(lb)}.` : ""}`;
+              const uitleg = `${k.naam}. ${n ? `Bevestigd door ${n.door}, ${watGeleden(n.op)}.` : "Nog niet bevestigd."}${lb ? ` Laatst bijgewerkt ${watGeleden(lb)}.` : ""}`;
               return (
                 <button key={k.id} onClick={() => setOpenKolom(k.id)} title={uitleg} aria-label={uitleg}
                   className={`px-1 py-2 text-center transition hover:bg-cobalt-soft/40 ${n ? "" : "bg-wash"}`}>
@@ -163,9 +134,9 @@ export function Kaart({ alles, laatstGezien, laatstBijgewerkt, nagelopen, naam, 
                     ))}
                     {isOpen && zonderSubdoel.length > 0 && (
                       <div className="grid border-b border-rule/40" style={rijen}>
-                        <div className="sticky left-0 z-10 bg-offwhite py-1 pl-[46px] pr-3 text-[12.5px] italic text-ink-faint">Geen deel aangegeven</div>
+                        <div className="sticky left-0 z-10 bg-offwhite py-1 pl-[46px] pr-3 text-[12.5px] italic text-ink-faint">Geen subdoel aangegeven</div>
                         {school.kolommen.map((k) => (
-                          <Cel key={k.id} klein {...celProps(o, k, zonderSubdoel.filter((a) => a.kolom === k.id), "geen deel aangegeven")} />
+                          <Cel key={k.id} klein {...celProps(o, k, zonderSubdoel.filter((a) => a.kolom === k.id), "geen subdoel aangegeven")} />
                         ))}
                       </div>
                     )}
@@ -182,11 +153,14 @@ export function Kaart({ alles, laatstGezien, laatstBijgewerkt, nagelopen, naam, 
           Van sommige methode-onderdelen is niet bekend in {welkJaar} ze vallen. Die blijven daarom bij {elkJaar} staan.
         </p>
       )}
-      <p className="mt-3 max-w-[72ch] text-[12.5px] text-ink-faint">
-        Er staat bewust geen score op deze pagina. Een percentage nodigt uit om ruimer op te geven dan waar is, en maakt van een overzicht een beoordeling.
-      </p>
-
-      <Recent alles={zichtbaar} setOpenKolom={setOpenKolom} setViaCode={setViaCode} jaar={jaar} />
+      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[12px] text-ink-faint">
+        <span className="inline-flex items-center gap-1.5"><Merk methode docent={false} /> uit de methode</span>
+        <span className="inline-flex items-center gap-1.5"><Merk methode={false} docent /> van een docent</span>
+        <span className="inline-flex items-center gap-1.5"><span className="font-mono text-[10px] text-ink-soft">3</span> aantal lessen en projecten</span>
+        <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 bg-wash" /> {school.kolomLabel} nog niet bevestigd door een docent</span>
+        <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 border border-rule bg-cream" /> leeg en bevestigd: hier gebeurt niets</span>
+      </div>
+      <p className="mt-1.5 text-[12px] text-ink-faint">Onder elk {school.kolomLabel} staat wanneer het voor het laatst is bevestigd. Alles op deze kaart is opgegeven door collega's.</p>
 
       {hover && (
         <div className="pointer-events-none fixed z-40 w-[300px] -translate-x-1/2 rounded-lg border border-rule bg-cream p-2.5 shadow-m"
@@ -210,40 +184,10 @@ export function Kaart({ alles, laatstGezien, laatstBijgewerkt, nagelopen, naam, 
       )}
 
       {openKolom && (
-        <VakPaneel kolom={kolomVan(openKolom)} regels={alles.filter((a) => a.kolom === openKolom)} laatst={laatstBijgewerkt(openKolom)} viaCode={viaCode} naam={naam}
+        <VakPaneel kolom={kolomVan(openKolom)} regels={alles.filter((a) => a.kolom === openKolom)} laatst={laatstBijgewerkt(openKolom)} bevestigd={nagelopen[openKolom]} viaCode={viaCode} naam={naam}
                    onSluit={() => { setOpenKolom(null); setViaCode(null); }} setViaCode={setViaCode}
                    voegToe={voegToe} bewerk={bewerk} verwijder={verwijder} />
       )}
     </main>
-  );
-}
-
-/* ---------- recente bijdragen: maakt het atoom zichtbaar ---------- */
-
-function Recent({ alles, setOpenKolom, setViaCode, jaar }: { alles: Activiteit[]; setOpenKolom: (k: string) => void; setViaCode: (c: string | null) => void; jaar: number }) {
-  const { kolomVan, jaarKort, jaarTekst } = useSchool();
-  const [allesTonen, setAllesTonen] = useState(false);
-  const recent = alles.filter((a) => a.bron === "docent").sort((a, b) => b.op.localeCompare(a.op));
-  const getoond = allesTonen ? recent : recent.slice(0, RECENT_KORT);
-  if (!recent.length) return null;
-  return (
-    <section className="mt-5">
-      <Label>wat er is opgegeven{jaar > 0 ? `, ${jaarTekst(jaar)}` : ""}</Label>
-      <div className="mt-1.5 grid overflow-hidden rounded-lg border border-rule bg-cream sm:grid-cols-2 lg:grid-cols-3">
-        {getoond.map((a) => (
-          <button key={a.id} onClick={() => { setViaCode(null); setOpenKolom(a.kolom); }} className="block border-b border-rule/60 px-3 py-2 text-left transition hover:bg-offwhite/60">
-            <div className="text-[12.5px] leading-snug text-ink">{a.titel}</div>
-            <div className="mt-0.5 font-mono text-[10px] text-ink-faint">
-              {kolomVan(a.kolom).afk}, {jaarKort(a.jaar)}, {a.codes.join(" ")}, {a.door}, {watGeleden(a.op)}
-            </div>
-          </button>
-        ))}
-      </div>
-      {recent.length > RECENT_KORT && (
-        <button onClick={() => setAllesTonen(!allesTonen)} className="mt-1.5 text-[12.5px] text-cobalt hover:text-cobalt-deep">
-          {allesTonen ? "Toon minder" : `Toon alle ${recent.length}`}
-        </button>
-      )}
-    </section>
   );
 }

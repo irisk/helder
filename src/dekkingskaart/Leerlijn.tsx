@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ActiviteitFormulier } from "./ActiviteitFormulier";
 import { useSchool } from "./SchoolContext";
 import type { Activiteit, ActiviteitVelden } from "./types";
-import { Code, Merk, StatusTeken } from "./ui";
+import { Code, Knop, Merk, StatusTeken } from "./ui";
 
 /* De leerlijn: wat is afgesproken, per onderdeel en per jaar. Dezelfde records als de kaart.
    Dit scherm zegt wat er is afgesproken, nooit of een kerndoel gedekt is.
@@ -26,7 +26,7 @@ function LesKaart({ a, onKlik }: { a: Activiteit; onKlik?: () => void }) {
   );
 }
 
-type Open = { jaar: number | null; code: string; bezig?: Activiteit };
+type Open = { jaar: number | null; code?: string; bezig?: Activiteit };
 
 export function Leerlijn({ alles, naam, voegToe, bewerk }: {
   alles: Activiteit[]; naam: string;
@@ -42,10 +42,13 @@ export function Leerlijn({ alles, naam, voegToe, bewerk }: {
   const rij = { gridTemplateColumns: `240px repeat(${kolommen.length}, minmax(170px, 1fr))` };
   return (
     <main className="mx-auto max-w-[1400px] px-4 py-5">
-      <h1 className="font-display text-[19px] font-bold tracking-tight text-ink">Leerlijn</h1>
-      <p className="mt-0.5 max-w-[72ch] text-[12.5px] text-ink-faint">
-        Wat jullie hebben afgesproken, per onderdeel en per {school.jaarLabel}. Wat docenten daarnaast doen staat op de kaart.
-      </p>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="font-display text-[19px] font-bold tracking-tight text-ink">Leerlijn</h1>
+          <p className="mt-0.5 text-[12.5px] text-ink-faint">Wat jullie hebben afgesproken, per onderdeel en per {school.jaarLabel}.</p>
+        </div>
+        <Knop klein onClick={() => setOpen({ jaar: null })}>Les toevoegen</Knop>
+      </div>
       <div className="mt-4 overflow-x-auto rounded-lg border border-rule bg-cream">
         <div style={{ minWidth: 240 + kolommen.length * 170 }}>
           <div className="grid border-b border-rule" style={rij}>
@@ -60,9 +63,10 @@ export function Leerlijn({ alles, naam, voegToe, bewerk }: {
                 return (
                   <div key={j ?? "onbekend"} className="space-y-1 border-l border-rule/60 p-1.5">
                     {lessen.map((a) => <LesKaart key={a.id} a={a} onKlik={a.bron === "docent" ? () => { setKolom(a.kolom); setOpen({ jaar: j, code: o.code, bezig: a }); } : undefined} />)}
-                    {j !== null && (
-                      <button onClick={() => setOpen({ jaar: j, code: o.code })} className="w-full rounded px-1 py-1 text-left text-[12px] text-ink-faint hover:text-cobalt">
-                        {lessen.length ? "Nog een les afspreken" : "Nog niets afgesproken"}
+                    {j !== null && lessen.length === 0 && (
+                      <button onClick={() => setOpen({ jaar: j, code: o.code })} aria-label={`Les toevoegen: ${o.titel}, ${j === null ? "" : jaarTekst(j)}`}
+                        className="w-full rounded px-1 py-0.5 text-left text-[12px] text-cobalt opacity-0 transition hover:opacity-100 focus:opacity-100">
+                        Les toevoegen
                       </button>
                     )}
                   </div>
@@ -86,8 +90,8 @@ export function Leerlijn({ alles, naam, voegToe, bewerk }: {
             )}
             <ActiviteitFormulier
               key={`${open.bezig?.id ?? "nieuw"}-${open.code}-${open.jaar}`}
-              kop={open.bezig ? "afspraak bewerken" : "les afspreken"}
-              begin={open.bezig ?? { jaar: open.jaar, codes: [open.code], inLeerlijn: true, status: "gepland" }}
+              kop={open.bezig ? "les bewerken" : "les toevoegen"}
+              begin={open.bezig ?? { jaar: open.jaar, codes: open.code ? [open.code] : [], inLeerlijn: true, status: "gepland" }}
               bewerken={!!open.bezig}
               naam={naam} kolomId={kolom} toonCodes
               onOpslaan={(v) => { if (open.bezig) bewerk(open.bezig.id, v); else voegToe(kolom, v); setOpen(null); }}

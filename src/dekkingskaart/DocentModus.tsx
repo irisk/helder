@@ -7,7 +7,7 @@ import { Code, herkomst, Knop, Merk } from "./ui";
 
 /* Nalopen wat er al staat. Opluchting eerst: het scherm opent met wat al waar is, niet met
    een lijst van wat ontbreekt.
-   "Klaar" markeert de kolom als nagelopen; daar leest de kaart zijn schaduw uit. */
+   "Klaar" markeert de kolom als bevestigd; daar leest de kaart zijn schaduw uit. */
 
 const inputKlas = "rounded-md border border-rule bg-cream px-2.5 py-1 text-[12.5px] text-ink outline-none placeholder:text-ink-faint/70 focus:border-cobalt";
 
@@ -51,7 +51,7 @@ export function DocentModus({ kolom, methode, regels, naam, nagelopen, setKolom,
       <h1 className="mt-3 font-display text-[21px] font-bold tracking-tight text-ink">{kolom.naam}</h1>
       <p className="mt-1">
         {regels.length ? "Dit staat er al. Klopt het zo?" : "Hier staat nog niets. Vul in wat je doet, of zeg dat het klaar is als hier niets gebeurt."}
-        {nagelopen && <span className="text-ink-faint"> Nagelopen door {nagelopen.door}, {watGeleden(nagelopen.op)}.</span>}
+        {nagelopen && <span className="text-ink-faint"> Bevestigd door {nagelopen.door}, {watGeleden(nagelopen.op)}.</span>}
       </p>
 
       {uitMethode.length > 0 && (

@@ -79,11 +79,6 @@ function App({ school }: { school: SchoolConfig }) {
     return eigen.length ? eigen[eigen.length - 1] : null;
   };
 
-  // Bijgewerkt of nagelopen, wat het laatst was: een kolom die net is nagekeken is niet oud.
-  const laatstGezien = (k: string): string | null => {
-    const data = [laatstBijgewerkt(k), nagelopen[k]?.op].filter(Boolean) as string[];
-    return data.length ? data.sort()[data.length - 1] : null;
-  };
   const beantwoord = (id: string, waarde: MethodeAntwoord["waarde"], door: string) => {
     setNaam(door);
     setAntwoorden((l) => ({ ...l, [id]: { waarde, door, op: vandaagISO() } }));
@@ -111,13 +106,12 @@ function App({ school }: { school: SchoolConfig }) {
       <TopBar scherm={scherm} setScherm={setScherm} naam={naam} />
       {scherm === "opzet" && <Opzet methode={methode} setMethode={setMethode} onKlaar={() => setScherm("kaart")} />}
       {scherm === "kaart" && (
-        <Kaart alles={alles} laatstGezien={laatstGezien} laatstBijgewerkt={laatstBijgewerkt} nagelopen={nagelopen} naam={naam}
-          voegToe={voegToe} bewerk={bewerk} verwijder={verwijder}
-          naarUitnodigen={() => setScherm("uitnodigen")} />
+        <Kaart alles={alles} laatstBijgewerkt={laatstBijgewerkt} nagelopen={nagelopen} naam={naam}
+          voegToe={voegToe} bewerk={bewerk} verwijder={verwijder} />
       )}
       {scherm === "leerlijn" && <Leerlijn alles={alles} naam={naam} voegToe={voegToe} bewerk={bewerk} />}
       {scherm === "uitnodigen" && (
-        <Collegas laatstBijgewerkt={laatstGezien}
+        <Collegas laatstBijgewerkt={laatstBijgewerkt} nagelopen={nagelopen}
           onOpen={(k, n) => { setDocentKolom(k); setNaam(n); setScherm("docent"); }}
           onTerug={() => setScherm("kaart")} />
       )}
@@ -132,7 +126,7 @@ function App({ school }: { school: SchoolConfig }) {
 
 function TopBar({ scherm, setScherm, naam }: { scherm: Scherm; setScherm: (s: Scherm) => void; naam: string }) {
   const { school } = useSchool();
-  const tabs = [["kaart", "Kaart"], ["leerlijn", "Leerlijn"], ["uitnodigen", "Collega's"], ["docent", "Docentweergave"]] as const;
+  const tabs = [["kaart", "Kaart"], ["leerlijn", "Leerlijn"], ["uitnodigen", "Collega's"], ["docent", "Mijn vak"]] as const;
   return (
     <header className="sticky top-0 z-20 border-b border-rule bg-cream/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1400px] items-center gap-6 px-4 py-2.5">
