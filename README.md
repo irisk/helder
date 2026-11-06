@@ -1,4 +1,4 @@
-# Dekkingskaart
+# Helder
 
 **Which digital literacy goals come up in which lessons, and who says so?**
 
