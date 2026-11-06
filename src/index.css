@@ -1,41 +1,24 @@
-@import './styles/tokens.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Helder design system: docs in tailwind.config.js and src/dekkingskaart/ui.tsx. */
 @layer base {
   html {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    scroll-behavior: smooth;
   }
   body {
-    @apply bg-offwhite text-ink-soft font-sans;
+    @apply bg-ground font-figtree text-basis text-ink;
   }
-  h1,
-  h2,
-  h3 {
-    @apply font-display text-ink;
-    letter-spacing: -0.03em;
+  input[type='checkbox'],
+  input[type='radio'] {
+    width: 18px;
+    height: 18px;
+    accent-color: theme('colors.action.DEFAULT');
   }
-}
-
-@layer utilities {
-  /* Staggered settle-in on page load. Delay set per element via --reveal-i. */
-  .reveal {
-    opacity: 0;
-    animation: reveal-settle var(--iris-dur-settle) var(--iris-ease-settle) forwards;
-    animation-delay: calc(var(--reveal-i, 0) * 90ms);
-  }
-  @keyframes reveal-settle {
-    from {
-      opacity: 0;
-      transform: translateY(14px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  :focus-visible {
+    outline: 2px solid theme('colors.action.DEFAULT');
+    outline-offset: 2px;
   }
 }

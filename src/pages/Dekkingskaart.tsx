@@ -9,7 +9,6 @@ import { SchoolProvider, useSchool } from "../dekkingskaart/SchoolContext";
 import { schoolMetId } from "../dekkingskaart/scholen";
 import { schooljaarVan, vandaagISO } from "../dekkingskaart/tijd";
 import type { Activiteit, ActiviteitVelden, MethodeAntwoord, Nagelopen, SchoolConfig } from "../dekkingskaart/types";
-import { Label } from "../dekkingskaart/ui";
 
 /* ============================================================================
    Helder: de kerndoelen dekkingskaart
@@ -32,10 +31,12 @@ export function Dekkingskaart() {
   const school = schoolMetId(schoolId);
   if (!school) {
     return (
-      <main className="mx-auto max-w-[760px] px-4 py-16 text-ink-soft">
-        <h1 className="font-display text-[22px] font-bold tracking-tight text-ink">Deze school bestaat hier niet</h1>
-        <p className="mt-2"><a href="/" className="text-cobalt hover:text-cobalt-deep">Naar het voorbeeld</a></p>
-      </main>
+      <div className="min-h-screen">
+        <main className="mx-auto max-w-[760px] px-6 py-16">
+          <h1 className="text-titel">Deze school bestaat hier niet</h1>
+          <p className="mt-2"><a href="/dekkingskaart" className="font-semibold text-action hover:text-action-deep">Naar het voorbeeld</a></p>
+        </main>
+      </div>
     );
   }
   // key: een andere school begint met schone state
@@ -102,8 +103,8 @@ function App({ school }: { school: SchoolConfig }) {
   const verwijder = (id: string) => setActiviteiten((l) => l.filter((a) => a.id !== id));
 
   return (
-    <div className="min-h-screen bg-offwhite text-[13.5px] text-ink-soft">
-      <TopBar scherm={scherm} setScherm={setScherm} naam={naam} />
+    <div className="min-h-screen">
+      <TopBar scherm={scherm} setScherm={setScherm} />
       {scherm === "opzet" && <Opzet methode={methode} setMethode={setMethode} onKlaar={() => setScherm("kaart")} />}
       {scherm === "kaart" && (
         <Kaart alles={alles} laatstBijgewerkt={laatstBijgewerkt} nagelopen={nagelopen} naam={naam}
@@ -124,29 +125,26 @@ function App({ school }: { school: SchoolConfig }) {
   );
 }
 
-function TopBar({ scherm, setScherm, naam }: { scherm: Scherm; setScherm: (s: Scherm) => void; naam: string }) {
+function TopBar({ scherm, setScherm }: { scherm: Scherm; setScherm: (s: Scherm) => void }) {
   const { school } = useSchool();
   const tabs = [["kaart", "Kaart"], ["leerlijn", "Leerlijn"], ["uitnodigen", "Collega's"], ["docent", "Mijn vak"]] as const;
   return (
-    <header className="sticky top-0 z-20 border-b border-rule bg-cream/95 backdrop-blur">
-      <div className="mx-auto flex max-w-[1400px] items-center gap-6 px-4 py-2.5">
-        <div className="flex items-baseline gap-2">
-          <span className="font-display text-[15px] font-bold tracking-tight text-ink">Helder</span>
-          <span className="hidden font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint sm:inline">de kerndoelen dekkingskaart</span>
-        </div>
+    <header className="sticky top-0 z-20 border-b border-line bg-surface">
+      <div className="mx-auto flex max-w-[1400px] flex-wrap items-center gap-x-8 gap-y-2 px-6 py-2.5">
+        <span className="text-kop text-action">Helder</span>
         {scherm !== "opzet" && (
-          <nav className="flex gap-1">
+          <nav className="flex flex-wrap gap-1" aria-label="Hoofdmenu">
             {tabs.map(([k, l]) => (
-              <button key={k} onClick={() => setScherm(k)}
-                className={`rounded-md px-2.5 py-1 text-[12.5px] transition ${scherm === k ? "bg-cobalt-soft text-cobalt-deep" : "text-ink-soft hover:text-ink"}`}>
+              <button key={k} onClick={() => setScherm(k)} aria-current={scherm === k ? "page" : undefined}
+                className={`rounded-full px-3.5 py-1.5 transition ${scherm === k ? "bg-action-soft font-bold text-action" : "text-ink hover:text-action"}`}>
                 {l}
               </button>
             ))}
           </nav>
         )}
-        <div className="ml-auto hidden items-center gap-3 sm:flex">
-          <Label>{school.naam}</Label>
-          {naam && <span title={naam} className="h-5 w-5 rounded-full bg-cobalt text-center font-mono text-[10px] leading-5 text-cream">{naam.slice(0, 2)}</span>}
+        <div className="ml-auto hidden items-center gap-4 sm:flex">
+          <a href="/product" className="text-action hover:text-action-deep">Over dit product</a>
+          <span className="text-ink-soft">{school.naam}</span>
         </div>
       </div>
     </header>

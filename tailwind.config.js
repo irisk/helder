@@ -4,32 +4,35 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Sora', 'system-ui', 'sans-serif'],
-        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
-        serif: ['Fraunces', 'Georgia', 'serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        figtree: ['Figtree', 'Arial', 'sans-serif'],
       },
+      // Each color has one job.
       colors: {
-        offwhite: '#FAF8F3',
-        cream: '#FFFDF7',
-        wash: '#F0EDE4',
-        ink: { DEFAULT: '#12214A', soft: '#3A4668', faint: '#7A8299' },
-        cobalt: { DEFAULT: '#1D4AE5', deep: '#163DB8', soft: '#DDE5FB' },
-        yellow: { DEFAULT: '#F2C200', soft: '#FAE88F' },
-        coral: { DEFAULT: '#E8563F', deep: '#C8402B', soft: '#F6CFC6' },
-        sage: { DEFAULT: '#6AB8A2', deep: '#4C9B85', soft: '#D6EBE3' },
-        // ook in colors, niet alleen in borderColor: anders is bg-rule een stille no-op
-        rule: 'rgba(18,33,74,0.14)',
+        ground: '#F3F2F8',
+        surface: '#FFFFFF',
+        shade: '#ECEAF4', // a column nobody has confirmed yet; the vak block on a leerlijn card
+        ink: { DEFAULT: '#2A2540', soft: '#5C5870' },
+        line: { DEFAULT: '#DCD9E8', soft: '#E9E7F1', strong: '#CBC7DC' },
+        field: '#8D88A3',
+        action: { DEFAULT: '#3B3F9E', deep: '#2D3080', soft: '#E6E5F7' }, // what you can click
+        present: '#2E7F70', // source marks only
+        old: '#DFA100', // the dot for an old date, always with the date in text
+        overlay: 'rgba(42,37,64,0.2)',
       },
-      borderColor: {
-        rule: 'rgba(18,33,74,0.14)',
+      fontSize: {
+        titel: ['26px', { lineHeight: '1.25', fontWeight: '800' }],
+        kop: ['20px', { lineHeight: '1.3', fontWeight: '800' }],
+        basis: ['15px', '1.45'],
+        legenda: ['14px', '1.45'],
+        klein: ['13px', '1.4'],
       },
       boxShadow: {
-        s: '0 1px 2px rgba(18,33,74,0.05)',
-        m: '0 10px 28px -10px rgba(18,33,74,0.14)',
+        m: '0 10px 28px -10px rgba(42,37,64,0.14)',
       },
       borderRadius: {
-        xl2: '20px',
+        kaart: '14px',
+        kaartje: '10px',
+        veld: '8px',
       },
     },
   },

@@ -21,7 +21,7 @@ So this is a shared overview that a team keeps up together, and that shows when 
 - **The basic unit is a lesson activity, not a cell.** The map, the panels and the leerlijn are all views over one list of records. That's what makes adding and removing things possible. In my first version a cell was a calculated value, so there was nothing to edit.
 - **It never says a goal is covered.** It shows who reported what, and when. Every line from a textbook series shows its source.
 - **No score.** No percentage and no progress bar. A number invites people to report more generously than is true, and it turns an overview into a judgment.
-- **Source is shown by shape.** An open square is the textbook series, a filled dot is a teacher. I tried color and left/right position first. Color suggested one source mattered more, and left/right was hard to read at this size.
+- **Source is shown by shape.** A book is the textbook series, a person is a teacher. I tried color and left/right position first, then a square and a dot. Color suggested one source mattered more, left/right was hard to read at this size, and the dot looked heavier than the square.
 - **Empty isn't a failure.** A shaded column means nobody has checked it yet. A white empty cell means someone checked and it doesn't happen there.
 - **Teachers start with what's already there.** The teacher screen opens by asking "does this look right?", not with a list of what's missing. Gaps sit behind a link.
 - **A school is a config file.** Goals, columns, years and teachers all live in one file, and a column doesn't have to be a subject. The second demo school tests this: a primary school with different goals, grade groups and project weeks, with no school-specific code.
@@ -45,13 +45,13 @@ npm install
 npm run dev
 ```
 
-The map is at `/`, and the primary school is at `/voorbeeldbasisschool`.
+The front page is at `/`, the map at `/dekkingskaart`, and the primary school at `/dekkingskaart/voorbeeldbasisschool`.
 
 To add a school, copy a file in `src/dekkingskaart/scholen/` and register it in `index.ts`. The app is static, so everything in those files can be read by anyone with the site. Don't put real school data there.
 
 ## How it's built
 
-Vite, React, TypeScript and Tailwind CSS. Built with Claude Code.
+Vite, React, TypeScript and Tailwind CSS, on Vercel. This repo is the live site, so pushing to `main` deploys it. Screens are built from shared components in `src/dekkingskaart/ui.tsx`, with colors and type sizes as named tokens in `tailwind.config.js`. Built with Claude Code.
 
 ## Sources and license
 
