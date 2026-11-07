@@ -1,4 +1,5 @@
 import type { ChangeEvent, ReactNode } from "react";
+import { Link } from "react-router-dom";
 import { useSchool } from "./SchoolContext";
 import { versheid, watGeleden } from "./tijd";
 import type { Activiteit, Status } from "./types";
@@ -156,5 +157,24 @@ export function LesKaart({ a, onKlik }: { a: Activiteit; onKlik?: () => void }) 
         </span>
       </span>
     </Tag>
+  );
+}
+
+/* ---------- voettekst van de leespagina's ---------- */
+
+const CONTACT_EMAIL = "helder@irisvandekieft.com";
+
+export function Voettekst() {
+  return (
+    <footer className="border-t border-line">
+      <div className="mx-auto flex max-w-smal flex-wrap items-center justify-between gap-3 px-6 py-6 text-klein text-ink-soft">
+        <div><span className="font-semibold text-ink">Helder</span>, een initiatief van Iris van de Kieft</div>
+        <div className="flex flex-wrap items-center gap-4">
+          <Link to="/dekkingskaart" className="text-action hover:text-action-deep">Dekkingskaart</Link>
+          <Link to="/privacy" className="text-action hover:text-action-deep">Privacy</Link>
+          <a href={`mailto:${CONTACT_EMAIL}`} className="text-action hover:text-action-deep">{CONTACT_EMAIL}</a>
+        </div>
+      </div>
+    </footer>
   );
 }

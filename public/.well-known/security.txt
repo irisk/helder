@@ -1,0 +1,4 @@
+Contact: mailto:helder@irisvandekieft.com
+Expires: 2027-11-06T00:00:00.000Z
+Preferred-Languages: nl, en
+Canonical: https://helder.irisvandekieft.com/.well-known/security.txt

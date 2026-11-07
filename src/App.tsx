@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Dekkingskaart } from "./pages/Dekkingskaart";
 import { Over } from "./pages/Over";
+import { Privacy } from "./pages/Privacy";
 import { Product } from "./pages/Product";
 
 // SPA routing keeps no scroll position of its own; reset on navigation.
@@ -24,6 +25,7 @@ export default function App() {
         {/* old address, went out by email on 22 Sept, so it has to keep working */}
         <Route path="/dekkingsscan" element={<Navigate to="/dekkingskaart" replace />} />
         <Route path="/product" element={<Product />} />
+        <Route path="/privacy" element={<Privacy />} />
         <Route path="*" element={<Over />} />
       </Routes>
     </>

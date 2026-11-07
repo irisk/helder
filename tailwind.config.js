@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        figtree: ['Figtree', 'Arial', 'sans-serif'],
+        figtree: ['"Figtree Variable"', 'Arial', 'sans-serif'],
       },
       // Each color has one job.
       colors: {

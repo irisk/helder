@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { knopKlas } from "../dekkingskaart/ui";
+import { knopKlas, Voettekst } from "../dekkingskaart/ui";
 
 const CONTACT_EMAIL = "helder@irisvandekieft.com";
 const MAILTO = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Helder · meedenken")}`;
@@ -62,15 +62,7 @@ export function Over() {
           </div>
         </section>
       </main>
-      <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-smal flex-wrap items-center justify-between gap-3 px-6 py-6 text-klein text-ink-soft">
-          <div><span className="font-semibold text-ink">Helder</span>, een initiatief van Iris van de Kieft</div>
-          <div className="flex flex-wrap items-center gap-4">
-            <Link to="/dekkingskaart" className="text-action hover:text-action-deep">Dekkingskaart</Link>
-            <a href={MAILTO} className="text-action hover:text-action-deep">{CONTACT_EMAIL}</a>
-          </div>
-        </div>
-      </footer>
+      <Voettekst />
     </div>
   );
 }

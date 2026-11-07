@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import type { ReactNode } from "react";
-import { knopKlas } from "../dekkingskaart/ui";
+import { knopKlas, Voettekst } from "../dekkingskaart/ui";
 
 /* Productpagina. Lezers zijn coördinatoren en docenten die dit werk al doen.
    Ze hoeven niet overtuigd te worden van het probleem; ze willen zien wat het
@@ -133,6 +133,7 @@ export function Product() {
           </p>
         </div>
       </main>
+      <Voettekst />
     </div>
   );
 }
